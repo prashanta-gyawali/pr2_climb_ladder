@@ -8,7 +8,7 @@
  *
  * Usage: rosrun localize_rungs localizerungs
  *
- * Last updated: 14th Jan. 2013, 10:38AM
+ * Last updated: 2nd May 2013, 11:00AM
  *
  */
 
@@ -16,10 +16,11 @@
 #include <ros/ros.h>
 #include <sensor_msgs/PointCloud2.h>
 #include <geometry_msgs/Point.h>
-#include <cmath>
+#include <tf/transform_listener.h>
 
 // standard C++ library includes
 #include "std_msgs/String.h"
+#include <cmath>
 
 // PCL specific includes
 #include <pcl/ModelCoefficients.h>
@@ -56,6 +57,9 @@ class LocalizeRungs
 		ros::Publisher centroid_rung1_pub_;  
 		//! We will be publishing to the "centroid_rung2_pub" topic to pass the sencod rung
 		ros::Publisher centroid_rung2_pub_;  
+
+		//! we will be listening to TF transforms as well
+		tf::TransformListener listener_;
 
 	public:
 		//! ROS node initialization
@@ -272,20 +276,37 @@ class LocalizeRungs
 				}
 			}
 
-			geometry_msgs::Point centroid_rung1;
-			centroid_rung1.x = myrungs[0][0];
-			centroid_rung1.y = myrungs[0][1];
-			centroid_rung1.z = myrungs[0][2];
-			ROS_INFO("%f %f %f", centroid_rung1.x, centroid_rung1.y, centroid_rung1.z);
+			listener_.waitForTransform("head_mount_kinect_rgb_optical_frame", "odom_combined", ros::Time(0), ros::Duration(1.0));
 
-			geometry_msgs::Point centroid_rung2;
-			centroid_rung2.x = myrungs[1][0];
-			centroid_rung2.y = myrungs[1][1];
-			centroid_rung2.z = myrungs[1][2];
-			ROS_INFO("%f %f %f", centroid_rung2.x, centroid_rung2.y, centroid_rung2.z);
+			geometry_msgs::PointStamped centroid_rung1;
+			centroid_rung1.header.frame_id = "head_mount_kinect_rgb_optical_frame";
+			centroid_rung1.header.stamp = ros::Time();
+			centroid_rung1.point.x = myrungs[0][0];
+			centroid_rung1.point.y = myrungs[0][1];
+			centroid_rung1.point.z = myrungs[0][2];
+			ROS_INFO("point1 in kinect frame is %f %f %f", centroid_rung1.point.x, centroid_rung1.point.y, centroid_rung1.point.z);
+			geometry_msgs::PointStamped centroid_odom1;
 
-			centroid_rung1_pub_.publish(centroid_rung1);
-			centroid_rung2_pub_.publish(centroid_rung2);
+			listener_.transformPoint("odom_combined", centroid_rung1, centroid_odom1);
+			ROS_INFO("point1 in odomcombined frame is %f %f %f", centroid_odom1.point.x, centroid_odom1.point.y, centroid_odom1.point.z);
+			printf("");			
+
+			geometry_msgs::PointStamped centroid_rung2;
+			centroid_rung2.header.frame_id = "head_mount_kinect_rgb_optical_frame";
+			centroid_rung2.header.stamp = ros::Time();
+			centroid_rung2.point.x = myrungs[1][0];
+			centroid_rung2.point.y = myrungs[1][1];
+			centroid_rung2.point.z = myrungs[1][2];
+			ROS_INFO("%f %f %f", centroid_rung2.point.x, centroid_rung2.point.y, centroid_rung2.point.z);
+			geometry_msgs::PointStamped centroid_odom2;
+			listener_.transformPoint("odom_combined", centroid_rung2, centroid_odom2);
+			ROS_INFO("point2 in odomcombined frame is %f %f %f", centroid_odom2.point.x, centroid_odom2.point.y, centroid_odom2.point.z);
+
+			// trying to transform the points from the frame of the kinect to the odom combined frame right here instead of subscribing 			   and publishing again in a different node
+								 	
+
+			//centroid_rung1_pub_.publish(centroid_rung1);
+			//centroid_rung2_pub_.publish(centroid_rung2);
 			std::cout << std::endl;
 		}
 };
