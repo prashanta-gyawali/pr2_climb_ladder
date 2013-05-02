@@ -1,0 +1,32 @@
+<launch>
+
+  <arg name="paused" default="false"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="gui" default="true"/>
+  <arg name="ladder_world" default="true"/>
+  
+  <!-- set use_sim_time flag -->
+  <group if="$(arg use_sim_time)">
+    <param name="/use_sim_time" value="true" />
+  </group>
+
+
+  <!-- start empty world -->
+  <group if="$(arg paused)">
+    <group if="$(arg ladder_world)">
+	  <node name="gazebo" pkg="gazebo" type="gazebo" args="-u $(find myworld)/worlds/ladder_world.world" respawn="false" output="screen"/>	
+    </group>		
+  </group>
+
+  <group unless="$(arg paused)">
+    <group if="$(arg ladder_world)">
+	  <node name="gazebo" pkg="gazebo" type="gazebo" args="$(find myworld)/worlds/ladder_world.world" respawn="false" output="screen"/>	
+    </group>	
+  </group>
+
+  <!-- start gui -->
+  <group if="$(arg gui)">
+    <node name="gazebo_gui" pkg="gazebo" type="gui" respawn="false" output="screen"/>
+  </group>
+
+</launch>
