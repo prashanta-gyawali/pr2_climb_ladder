@@ -14,13 +14,13 @@
   <!-- start empty world -->
   <group if="$(arg paused)">
     <group if="$(arg ladder_world)">
-	  <node name="gazebo" pkg="gazebo" type="gazebo" args="-u $(find myworld)/worlds/ladder_world.world" respawn="false" output="screen"/>	
+	  <node name="gazebo" pkg="gazebo" type="gazebo" args="-u $(find ladder_world)/worlds/ladder_world.world" respawn="false" output="screen"/>	
     </group>		
   </group>
 
   <group unless="$(arg paused)">
     <group if="$(arg ladder_world)">
-	  <node name="gazebo" pkg="gazebo" type="gazebo" args="-u $(find myworld)/worlds/ladder_world.world" respawn="false" output="screen"/>	
+	  <node name="gazebo" pkg="gazebo" type="gazebo" args="$(find ladder_world)/worlds/ladder_world.world" respawn="false" output="screen"/>	
     </group>	
   </group>
 

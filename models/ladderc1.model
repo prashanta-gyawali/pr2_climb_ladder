@@ -1,0 +1,163 @@
+<gazebo version="1.0">
+<model name="ladderc" static="true">
+	<link name="ladderleg1">		
+		<origin pose="0.7 -0.3 1 0 0 0"/>
+		<inertial mass="1.0">
+			<inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+		</inertial>
+		<collision name="collision">
+	    	<geometry>
+	    	    <cylinder radius = "0.02"  length = "2"/>									
+	    	</geometry>
+	    </collision>		
+		<visual name="visual">
+			<material>
+				<ambient rgba="0 0 0 1"/>
+			</material>
+	    	<geometry>
+	    	    <cylinder radius = "0.02"  length = "2"/>									
+	    	</geometry>
+	    </visual>
+	</link>	
+
+	<link name="ladderleg2">		
+		<origin pose="0.7 0.3 1 0 0 0"/>
+		<inertial mass="1.0">
+			<inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+		</inertial>
+		<collision name="collision">
+	    	<geometry>
+	    	    <cylinder radius = "0.02"  length = "2"/>									
+	    	</geometry>
+	    </collision>		
+		<visual name="visual">
+			<material>
+				<ambient rgba="0 0 0 1"/>
+			</material>
+	    	<geometry>
+	    	    <cylinder radius = "0.02"  length = "2"/>									
+	    	</geometry>
+	    </visual>
+	</link>	
+
+	<link name="ladderrung1">		
+		<origin pose="0.7 0 0.3 1.570796 0 0"/>
+		<inertial mass="1.0">
+			<inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+		</inertial>
+		<collision name="collision">
+	    	<geometry>
+	    	    <cylinder radius = "0.02"  length = "0.6"/>									
+	    	</geometry>
+	    </collision>		
+		<visual name="visual">
+			<material>
+				<ambient rgba="0 0 0 1"/>
+			</material>
+	    	<geometry>
+	    	    <cylinder radius = "0.02"  length = "0.6"/>									
+	    	</geometry>
+	    </visual>
+	</link>
+
+	<link name="ladderrung2">		
+		<origin pose="0.7 0 0.6 1.570796 0 0"/>
+		<inertial mass="1.0">
+			<inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+		</inertial>
+		<collision name="collision">
+	    	<geometry>
+	    	    <cylinder radius = "0.02"  length = "0.6"/>									
+	    	</geometry>
+	    </collision>		
+		<visual name="visual">
+			<material>
+				<ambient rgba="0 0 0 1"/>
+			</material>
+	    	<geometry>
+	    	    <cylinder radius = "0.02"  length = "0.6"/>									
+	    	</geometry>
+	    </visual>
+	</link>	
+
+	<link name="ladderrung3">		
+		<origin pose="0.7 0 0.9 1.570796 0 0"/>
+		<inertial mass="1.0">
+			<inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+		</inertial>
+		<collision name="collision">
+	    	<geometry>
+	    	    <cylinder radius = "0.02"  length = "0.6"/>									
+	    	</geometry>
+	    </collision>		
+		<visual name="visual">
+			<material>
+				<ambient rgba="0 0 0 1"/>
+			</material>
+	    	<geometry>
+	    	    <cylinder radius = "0.02"  length = "0.6"/>									
+	    	</geometry>
+	    </visual>
+	</link>
+
+	<link name="ladderrung4">		
+		<origin pose="0.7 0 1.2 1.570796 0 0"/>
+		<inertial mass="1.0">
+			<inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+		</inertial>
+		<collision name="collision">
+	    	<geometry>
+	    	    <cylinder radius = "0.02"  length = "0.6"/>									
+	    	</geometry>
+	    </collision>		
+		<visual name="visual">
+			<material>
+				<ambient rgba="0 0 0 1"/>
+			</material>
+	    	<geometry>
+	    	    <cylinder radius = "0.02"  length = "0.6"/>									
+	    	</geometry>
+	    </visual>
+	</link>
+
+	<link name="ladderrung5">		
+		<origin pose="0.7 0 1.5 1.570796 0 0"/>
+		<inertial mass="1.0">
+			<inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+		</inertial>
+		<collision name="collision">
+	    	<geometry>
+	    	    <cylinder radius = "0.02"  length = "0.6"/>									
+	    	</geometry>
+	    </collision>		
+		<visual name="visual">
+			<material>
+				<ambient rgba="0 0 0 1"/>
+			</material>
+	    	<geometry>
+	    	    <cylinder radius = "0.02"  length = "0.6"/>									
+	    	</geometry>
+	    </visual>
+	</link>
+
+	<link name="ladderrung6">		
+		<origin pose="0.7 0 1.8 1.570796 0 0"/>
+		<inertial mass="1.0">
+			<inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+		</inertial>
+		<collision name="collision">
+	    	<geometry>
+	    	    <cylinder radius = "0.02"  length = "0.6"/>									
+	    	</geometry>
+	    </collision>		
+		<visual name="visual">
+			<material>
+				<ambient rgba="0 0 0 1"/>
+			</material>
+	    	<geometry>
+	    	    <cylinder radius = "0.02"  length = "0.6"/>									
+	    	</geometry>
+	    </visual>
+	</link>
+
+</gazebo>	  
