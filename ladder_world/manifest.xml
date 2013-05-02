@@ -1,0 +1,14 @@
+<package>
+  <description brief="ladder_world">
+
+     ladder_world
+
+  </description>
+  <author>Prashanta</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/ladder_world</url>
+
+</package>
+
+
