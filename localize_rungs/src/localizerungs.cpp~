@@ -67,8 +67,8 @@ class LocalizeRungs
 		{		
 			nh_ = nh;
 			// Create a ROS publisher for the output geometry_msg(the centroid)
-   			centroid_rung1_pub_ = nh_.advertise<geometry_msgs::Point>("Centroid_Rung1_Kinect_Frame", 1);
-			centroid_rung2_pub_ = nh_.advertise<geometry_msgs::Point>("Centroid_Rung2_Kinect_Frame", 1);
+   			centroid_rung1_pub_ = nh_.advertise<geometry_msgs::PointStamped>("Centroid_Rung1_Odom_Frame", 1);
+			centroid_rung2_pub_ = nh_.advertise<geometry_msgs::PointStamped>("Centroid_Rung2_Odom_Frame", 1);
 		}
 		
 		void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
@@ -276,6 +276,8 @@ class LocalizeRungs
 				}
 			}
 
+			listener_.waitForTransform("head_mount_kinect_rgb_optical_frame", "odom_combined", ros::Time(0), ros::Duration(1.0));
+
 			geometry_msgs::PointStamped centroid_rung1;
 			centroid_rung1.header.frame_id = "head_mount_kinect_rgb_optical_frame";
 			centroid_rung1.header.stamp = ros::Time();
@@ -302,8 +304,8 @@ class LocalizeRungs
 			// trying to transform the points from the frame of the kinect to the odom combined frame right here instead of subscribing 			   and publishing again in a different node
 								 	
 
-			//centroid_rung1_pub_.publish(centroid_rung1);
-			//centroid_rung2_pub_.publish(centroid_rung2);
+			centroid_rung1_pub_.publish(centroid_rung1);
+			centroid_rung2_pub_.publish(centroid_rung2);
 			std::cout << std::endl;
 		}
 };
