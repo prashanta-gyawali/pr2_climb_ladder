@@ -518,8 +518,8 @@ def genericFunction(centroid_rung1_kinect, centroid_rung2_kinect):
 	
 if __name__ == '__main__':
 	rospy.init_node('climb', anonymous=True)
-	rung1_sub = message_filters.Subscriber('Centroid_Rung1_Odom_Frame', PointStamped)
-	rung2_sub = message_filters.Subscriber('Centroid_Rung2_Odom_Frame', PointStamped)
+	rung1_sub = message_filters.Subscriber('Centroid_Odom_Combined_Rung1', PointStamped)
+	rung2_sub = message_filters.Subscriber('Centroid_Odom_Combined_Rung2', PointStamped)
 	
 	ts = message_filters.TimeSynchronizer([rung1_sub, rung2_sub], 10)
 	ts.registerCallback(genericFunction)

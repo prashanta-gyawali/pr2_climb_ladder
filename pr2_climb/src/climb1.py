@@ -1,6 +1,7 @@
 #! /usr/bin/python
 
 import roslib
+import thread
 roslib.load_manifest('rospy')
 roslib.load_manifest('geometry_msgs')
 roslib.load_manifest('actionlib')
@@ -82,6 +83,38 @@ def MoveRightArmToJointAngles(joint_angles_list):
 	client.send_goal(goal)
 	client.wait_for_result()
 
+def MoveRightArmToJointAngles1(j1, j2, j3, j4, j5, j6, j7):
+	client = actionlib.SimpleActionClient('r_arm_controller/joint_trajectory_action', JointTrajectoryAction)
+	client.wait_for_server()
+
+	goal = JointTrajectoryGoal()
+	goal.trajectory.header.stamp = rospy.Time.now() + rospy.Duration(1.0)
+	goal.trajectory.joint_names = ["r_shoulder_pan_joint",
+	                               "r_shoulder_lift_joint",
+    	                           "r_upper_arm_roll_joint",
+    	                           "r_elbow_flex_joint",
+    	                           "r_forearm_roll_joint",
+    	                           "r_wrist_flex_joint",
+    	                           "r_wrist_roll_joint"]
+	ind = 0
+	
+	point1 = trajectory_msgs.msg.JointTrajectoryPoint()
+	goal.trajectory.points = [point1]
+	#point1.positions = [-0.248, -0.34, -1.2, -1.577, -2.734, -1.462, -1.925]
+	point1.positions = [j1,
+						j2,
+						j3,
+						j4,
+						j5,
+						j6,
+						j7]
+	point1.velocities = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+	goal.trajectory.points[ind] = point1
+	goal.trajectory.points[ind].time_from_start = rospy.Duration(1.0)
+
+	client.send_goal(goal)
+	client.wait_for_result()
+
 def MoveLeftArmToJointAngles(joint_angles_list):
 	client = actionlib.SimpleActionClient('l_arm_controller/joint_trajectory_action', JointTrajectoryAction)
 	client.wait_for_server()
@@ -107,6 +140,38 @@ def MoveLeftArmToJointAngles(joint_angles_list):
 						joint_angles_list[4],
 						joint_angles_list[5],
 						joint_angles_list[6]]
+	point1.velocities = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+	goal.trajectory.points[ind] = point1
+	goal.trajectory.points[ind].time_from_start = rospy.Duration(1.0)
+
+	client.send_goal(goal)
+	client.wait_for_result()
+
+def MoveLeftArmToJointAngles1(j1, j2, j3, j4, j5, j6, j7):
+	client = actionlib.SimpleActionClient('l_arm_controller/joint_trajectory_action', JointTrajectoryAction)
+	client.wait_for_server()
+
+	goal = JointTrajectoryGoal()
+	goal.trajectory.header.stamp = rospy.Time.now() + rospy.Duration(1.0)
+	goal.trajectory.joint_names = ["l_shoulder_pan_joint",
+	                               "l_shoulder_lift_joint",
+    	                           "l_upper_arm_roll_joint",
+    	                           "l_elbow_flex_joint",
+    	                           "l_forearm_roll_joint",
+    	                           "l_wrist_flex_joint",
+    	                           "l_wrist_roll_joint"]
+	ind = 0
+	
+	point1 = trajectory_msgs.msg.JointTrajectoryPoint()
+	goal.trajectory.points = [point1]
+	#point1.positions = [-0.248, -0.34, -1.2, -1.577, -2.734, -1.462, -1.925]
+	point1.positions = [j1,
+						j2,
+						j3,
+						j4,
+						j5,
+						j6,
+						j7]
 	point1.velocities = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 	goal.trajectory.points[ind] = point1
 	goal.trajectory.points[ind].time_from_start = rospy.Duration(1.0)
@@ -512,8 +577,8 @@ def genericFunction(centroid_rung1_kinect, centroid_rung2_kinect):
 	GraspLeft(lt_arm_points, orientation)
 	GraspRight(rt_arm_points, orientation)	
 
-	MoveLeftArmToJointAngles([0.519860, 0.503715, 1.55, -1.4738, -2.618218, -0.955526, 3.106722])		
-	MoveRightArmToJointAngles([-0.520718, 0.504227, -1.55, -1.475069, 2.618079, -0.956160, 0.034233])
+	thread.start_new_thread(MoveLeftArmToJointAngles1, ((0.519860, 0.503715, 1.55, -1.4738, -2.618218, -0.955526, 3.106722)))		
+	thread.start_new_thread(MoveRightArmToJointAngles1, ((-0.520718, 0.504227, -1.55, -1.475069, 2.618079, -0.956160, 0.034233)))
 
 	
 if __name__ == '__main__':
