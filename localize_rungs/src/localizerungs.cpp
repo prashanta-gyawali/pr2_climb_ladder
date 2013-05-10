@@ -175,8 +175,10 @@ class LocalizeRungs
 				//std::cout << "x_dir:" << modelCoefficients[3] << "  y_dir" << modelCoefficients[4] << "  z_dir" << modelCoefficients[5] << std::endl; // line direction in x, y and z
 
 				Eigen::Vector4f centroid;
-				// if the slope in x direction is greater than some value(0.9) retain it otherwise eliminate it
-				if (modelCoefficients[3] > 0.9 || modelCoefficients[3] < -0.9)
+				// modelCoefficients[0/1/2] are x, y and z coefficients in the line eqn. modelCoefficients[3/4/5] are slope in x, y and z direction
+				// slope in x direction is given by modelCoefficients[3]
+				// if the slope in x direction is greater than some value (-0.2) or less than some value (0.2) retain it otherwise eliminate it
+				if (modelCoefficients[3] < 0.2 || modelCoefficients[3] > -0.2)
 				{
 				    //std::cout << "this is a good line" << std::endl;
 				    pcl::compute3DCentroid(*finalCloud, centroid);
@@ -301,11 +303,15 @@ class LocalizeRungs
 			listener_.transformPoint("odom_combined", centroid_rung2, centroid_odom2);
 			ROS_INFO("point2 in odomcombined frame is %f %f %f", centroid_odom2.point.x, centroid_odom2.point.y, centroid_odom2.point.z);
 
-			// trying to transform the points from the frame of the kinect to the odom combined frame right here instead of subscribing 			   and publishing again in a different node
-								 	
-
-			centroid_rung1_pub_.publish(centroid_odom1);
-			centroid_rung2_pub_.publish(centroid_odom2);
+			// trying to transform the points from the frame of the kinect to the odom combined frame right here instead of subscribing and publishing again in a different node
+			if(centroid_odom2.point.x)
+			{
+				if(centroid_odom1.point.x)
+				{
+					centroid_rung1_pub_.publish(centroid_odom1);
+					centroid_rung2_pub_.publish(centroid_odom2);
+				}
+			}
 			std::cout << std::endl;
 		}
 };
@@ -318,7 +324,7 @@ int main (int argc, char** argv)
 	LocalizeRungs localize(nh);
     
 	// Create a ROS subscriber for the input point cloud
-    ros::Subscriber sub = nh.subscribe<sensor_msgs::PointCloud2>("/head_mount_kinect/depth/points", 1, &LocalizeRungs::cloud_cb, &localize);
+    ros::Subscriber sub = nh.subscribe<sensor_msgs::PointCloud2>("/head_mount_kinect/depth/points", 20, &LocalizeRungs::cloud_cb, &localize);
 
     // Spin
     ros::spin();
